@@ -163,12 +163,11 @@ new class extends Component
                                         <flux:button
                                             wire:click="deletePost({{ $post->id }})"
                                             icon:trailing="trash"
-                                            variant="primary"
+                                            variant="danger"
                                             size="sm"
-                                           
                                         >
                                             Delete
-                                        <flux:button>
+                                        </flux:button>
                                     @endif
                                 </div>
                             </flux:table.cell>

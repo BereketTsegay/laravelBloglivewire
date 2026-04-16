@@ -84,7 +84,7 @@ new class extends Component
             @if ($featured_image)
                 <div class="mt-4 flex flex-col gap-2">
                     <img src="{{ $featured_image->temporaryUrl()}}"
-                        class="h-32 w-auto rounded border"                    
+                        class="h-32 w-32 rounded border"                    
                      alt="" srcset="">
                 </div>
             @endif
