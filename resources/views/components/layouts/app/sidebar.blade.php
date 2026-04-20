@@ -18,7 +18,7 @@
                         <flux:navlist.item icon="document-text" :href="route('posts.index')" :current="request()->routeIs('posts')" wire:navigate>Posts</flux:navlist.item>    
                     @endcan
                     @can('manage users')
-                        <flux:navlist.item icon="user-group" :href="route('users.index')" :current="request()->routeIs('users')" wire:navigate>Dashboard</flux:navlist.item>    
+                        <flux:navlist.item icon="user-group" :href="route('users.index')" :current="request()->routeIs('users')" wire:navigate>Users</flux:navlist.item>    
                     @endcan
                     
                 </flux:navlist.group>

@@ -81,7 +81,10 @@ new class extends Component
     <div class="mb-6 rounded-lg   p-4">
         <div class="flex flex-col sm:flex-row gap-4">
             <div class="flex-1">
-                <flux:input kbd="⌘K" icon="magnifying-glass" placeholder="Search..." wire:model.live.debounce.300ms="serach"/>
+                <flux:input kbd="⌘K" 
+                icon="magnifying-glass" 
+                placeholder="Search..." 
+                wire:model.live.debounce.300ms="search"/>
             </div>
             <div class="sm:w-48">
                 <flux:select wire:model.live="status" placeholder="Choose industry...">
