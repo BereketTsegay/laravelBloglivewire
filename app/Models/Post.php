@@ -26,6 +26,16 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
     protected static function boot(){
 
         parent::boot();
@@ -35,5 +45,5 @@ class Post extends Model
                 $post->slug = Str::slug($post->title);
             }
         });
-    } 
+    }
 }

@@ -24,6 +24,17 @@ new class extends Component
     public $featured_image = '';
 
     public $existing_image = '';
+    #[Validate('required|array|min:1')]
+    public $selectedCategories = [];
+    #[Validate('nullable|array|min:1')]
+    public $selectedTags = [];
+
+    public function with() : array{
+        return [
+            'categories' => \App\Models\Category::orderBy('name')->get(),
+            'tags' => \App\Models\Tag::orderBy('name')->get(),
+        ];
+    }
 
 
     public function mount(Post $post){
@@ -38,6 +49,9 @@ new class extends Component
         $this->content = $post->content;
         $this->status = $post->status;
         $this->existing_image = $post->featured_image ?? '';
+
+        $this->selectedCategories = $post->categories()->pluck('id')->toArray()??[];
+        $this->selectedTags = $post->tags()->pluck('id')->toArray()??[];
     }
 
     public function update(){
@@ -59,7 +73,7 @@ new class extends Component
             $this->post->featured_image = $path;
             $this->existing_image = $path;
         }
-        
+
 
         if($this->status === 'published' && !$this->post->published_at){
             $this->post->published_at = now();
@@ -67,6 +81,14 @@ new class extends Component
 
 
         $this->post->save();
+
+        //sync categories and tags
+        $this->post->categories()->sync($this->selectedCategories);
+        if(!empty($this->selectedTags)){
+            $this->post->tags()->sync($this->selectedTags);
+        }else{
+            $this->post->tags()->sync([]);
+        }
 
          Flux::toast('Your changes have been saved.');
 
@@ -96,7 +118,7 @@ new class extends Component
             <flux:description>This will appear in post previews and search results</flux:description>
         </flux:field>
         <flux:field>
-            
+
             <div wire:ignore
                 x-data="{
                     content: $wire.entangle('content'),
@@ -112,9 +134,9 @@ new class extends Component
                 <flux:input type="hidden" name="content" id="x-content"/>
                 <trix-editor
                     input="x-content"
-                    class="trix-content"  
+                    class="trix-content"
                     x-ref="trixEditor"
-        
+
                 ></trix-editor>
                 <flux:error name="content" />
             </div>
@@ -124,14 +146,14 @@ new class extends Component
             @if ($existing_image && !$featured_image)
                 <div class="mt-4 flex flex-col gap-2">
                     <img src="{{ Storage::Url($existing_image)}}"
-                        class="h-12 w-12 rounded border"                    
+                        class="h-12 w-12 rounded border"
                     >
                 </div>
             @endif
             @if ($featured_image)
                 <div class="mt-4 flex flex-col gap-2">
                     <img src="{{ $featured_image->temporaryUrl()}}"
-                        class="h-12 w-12 rounded border"                    
+                        class="h-12 w-12 rounded border"
                     >
                 </div>
             @endif
@@ -140,6 +162,42 @@ new class extends Component
                 Uploading...
             </div>
         </flux:field>
+            <flux:fieldset>
+                <!-- categories -->
+                <flux:legend>Categories</flux:legend>
+                <flux:checkbox.group wire:model.live="selectedCategories">
+                    @foreach ($categories as $category)
+                    <div class="flex items-center">
+                        <span class="ml-3 flex items-center">
+                            <span
+                                class="inline-block w-3 h-3 rounded-full mr-2"
+                                style="background-color: {{ $category->color }}"
+                            >
+
+                            </span>
+                        </span>
+                        <flux:checkbox
+                            value="{{ $category->id }}"
+                            label="{{ $category->name }}"
+                        />
+                    </div>
+                    @endforeach
+                </flux:checkbox.group>
+                <flux:error name="selectedCategories" />
+            </flux:checkbox.group>
+        </flux:fieldset>
+        <flux:fieldset>
+            <!-- tags -->
+            <flux:legend>Tags</flux:legend>
+            <flux:checkbox.group wire:model.live="selectedTags">
+                @foreach ($tags as $tag)
+                    <flux:checkbox
+                        value="{{ $tag->id }}"
+                        label="{{ $tag->name }}"
+                    />
+                @endforeach
+            </flux:checkbox.group>
+        </flux:fieldset>
         <flux:fieldset>
     <flux:legend>Status</flux:legend>
     <flux:radio.group wire:model.live="status">
@@ -154,7 +212,7 @@ new class extends Component
                 value="published"
                 label="Publish"
                 description="Publish imedeatly, vissible to all readers."
-            /> 
+            />
             @endcan
         </flux:radio.group>
         <flux:error name="status" />
@@ -162,7 +220,7 @@ new class extends Component
 
     <div class="flex gap-3">
         <flux:button type="submit" variant="primary">Update Post</flux:button>
-        <flux:button 
+        <flux:button
          href="{{ route('posts.index') }}"
         variant="danger">Cancel</flux:button>
     </div>

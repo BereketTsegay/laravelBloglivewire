@@ -4,7 +4,7 @@ use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
-use illuminate\Support\Facades\Hash;
+// use illuminate\Support\Facades\Hash;
 
 new class extends Component
 {
@@ -19,7 +19,7 @@ new class extends Component
     public string $password_confirmation ='';
     #[Validate('required|array|min:1')]
     public array $selectedRoles = [];
-    
+
 
     public function with(): array {
         return [
@@ -59,26 +59,26 @@ new class extends Component
             <flux:error name="name" />
         </flux:field>
         <flux:field>
-            <flux:input placeholder="youremail@ex.domain" type="email" label="email" 
+            <flux:input placeholder="youremail@ex.domain" type="email" label="email"
             wire:model.live="email"/>
             <flux:error name="eamil" />
-           
+
         </flux:field>
         <flux:field>
-            
-            <flux:input 
-            placeholder="password" 
-            type="password" 
-            label="Password" 
+
+            <flux:input
+            placeholder="password"
+            type="password"
+            label="Password"
             wire:model="password"/>
             <flux:error name="password" />
         </flux:field>
         <flux:field>
-            
-            <flux:input 
-                placeholder="Confirm Password" 
-                type="password" 
-                label="Confirm Password" 
+
+            <flux:input
+                placeholder="Confirm Password"
+                type="password"
+                label="Confirm Password"
                 wire:model.live="password_confirmation"/>
             <flux:error name="password_confirmation" />
         </flux:field>
@@ -87,12 +87,12 @@ new class extends Component
             <flux:description>Choose the role for your user.</flux:description>
                <div class="flex gap-4 *:gap-x-2">
                     @foreach ($roles as $role)
-                        
-                        
+
+
                                 <flux:checkbox :key="$role->id" value="{{$role->name}}" label="{{$role->name}}" />
-                                
-                      
-                        
+
+
+
                     @endforeach
                 </div>
             </flux:checkbox.group>
@@ -101,7 +101,7 @@ new class extends Component
 
     <div class="flex gap-3">
         <flux:button type="submit" variant="primary">Create User</flux:button>
-        <flux:button 
+        <flux:button
          href="{{ route('users.index') }}"
         variant="danger">Cancel</flux:button>
     </div>

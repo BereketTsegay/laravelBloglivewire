@@ -44,15 +44,15 @@ new class extends Component
                 </div>
             </div>
             <!-- Categories and Tags -->
-            {{-- <div class="flex flex-wrap items-center gap-4 pt-4 border-t border-gray-200">
-                <!-- Categories --> 
+            <!-- {{-- <div class="flex flex-wrap items-center gap-4 pt-4 border-t border-gray-200"> -->
+                <!-- Categories
                 @if($post->categories->count() > 0)
                     <div class="flex items-center gap-2">
                         <span class="text-sm font-medium text-gray-500">Categories:</span>
                         <div class="flex flex-wrap gap-2">
                             @foreach($post->categories as $category)
-                                <a 
-                                    href="{{ route('blog.index', ['category' => $category->slug]) }}" 
+                                <a
+                                    href="{{ route('blog.index', ['category' => $category->slug]) }}"
                                     wire:navigate
                                     class="px-3 py-1 text-sm font-semibold rounded-full text-white hover:opacity-80 transition"
                                     style="background-color: {{ $category->color }}"
@@ -62,16 +62,16 @@ new class extends Component
                             @endforeach
                         </div>
                     </div>
-                @endif
+                @endif -->
 
                 <!-- Tags -->
-                @if($post->tags->count() > 0)
+                <!-- @if($post->tags->count() > 0)
                     <div class="flex items-center gap-2">
                         <span class="text-sm font-medium text-gray-500">Tags:</span>
                         <div class="flex flex-wrap gap-2">
                             @foreach($post->tags as $tag)
-                                <a 
-                                    href="{{ route('blog.index', ['tag' => $tag->slug]) }}" 
+                                <a
+                                    href="{{ route('blog.index', ['tag' => $tag->slug]) }}"
                                     wire:navigate
                                     class="text-sm text-indigo-600 hover:text-indigo-800"
                                 >
@@ -80,8 +80,8 @@ new class extends Component
                             @endforeach
                         </div>
                     </div>
-                @endif
-            </div> --}}
+                @endif -->
+            <!-- </div> --}} -->
         </header>
 
         <!-- Post Content -->
@@ -101,7 +101,7 @@ new class extends Component
                 </div>
             </div>
         </footer>
-        {{-- Comment section --}}
-        {{-- <livewire:blog.comments :post="$post" /> --}}
+        <!-- {{-- Comment section --}} -->
+        <!-- {{-- <livewire:blog.comments :post="$post" /> --}} -->
     </article>
 </div>
