@@ -75,19 +75,30 @@ new class extends Component
         </flux:field>
         <flux:field>
             
-            <flux:textarea rows="12" placeholder="Write you post content here . . . ." type="text" label="content" wire:model.live.debounce="content"/>
-            <flux:error name="content" />
+            <div wire:ignore>
+                <flux:input type="hidden" name="content" id="x-content"/>
+                <trix-editor
+                    input="x-content"
+                    class="trix-content"
+                    x-data
+                    x-on:trix-change="$wire.content=$event.target.value"
+                ></trix-editor>
+                <flux:error name="content" />
+            </div>
         </flux:field>
         <flux:field>
           
             <flux:input type="file" wire:model="featured_image" accept="image/*" placeholder="Select image" label=""/>
             @if ($featured_image)
-                <div class="mt-4 flex flex-col gap-2">
+                <div class="mt-4 flex flex-col gap-2" id="featured_image">
                     <img src="{{ $featured_image->temporaryUrl()}}"
                         class="h-32 w-32 rounded border"                    
                      alt="" srcset="">
                 </div>
             @endif
+            <div wire:loading wire:target="featured_image" class="mt-2 text-sm text-gray-500">
+                Uploading...
+            </div>
             <flux:error name="featured_image" />
         </flux:field>
         <flux:fieldset>

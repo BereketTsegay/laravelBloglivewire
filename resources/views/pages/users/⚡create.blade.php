@@ -4,6 +4,7 @@ use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
+use illuminate\Support\Facades\Hash;
 
 new class extends Component
 {
@@ -17,12 +18,12 @@ new class extends Component
     #[Validate('required|same:password')]
     public string $password_confirmation ='';
     #[Validate('required|array|min:1')]
-    public array $selecrtedRoles = [];
+    public array $selectedRoles = [];
     
 
     public function with(): array {
         return [
-            'role'=>Role::all(),
+            'roles'=>Role::all(),
         ];
     }
 
@@ -35,7 +36,7 @@ new class extends Component
             'password'=> Hash::make($this->password),
         ]);
 
-        $user->assignRole($this->selecrtedRoles);
+        $user->assignRole($this->selectedRoles);
 
         session()->flash('success','New User has been created');
 
@@ -69,7 +70,7 @@ new class extends Component
             placeholder="password" 
             type="password" 
             label="Password" 
-            wire:model.live.debounce="password"/>
+            wire:model="password"/>
             <flux:error name="password" />
         </flux:field>
         <flux:field>
@@ -81,8 +82,23 @@ new class extends Component
                 wire:model.live="password_confirmation"/>
             <flux:error name="password_confirmation" />
         </flux:field>
-        
-        
+        <flux:fieldset>
+            <flux:checkbox.group wire:model="selectedRoles" label="Roles">
+            <flux:description>Choose the role for your user.</flux:description>
+               <div class="flex gap-4 *:gap-x-2">
+                    @foreach ($roles as $role)
+                        
+                        
+                                <flux:checkbox :key="$role->id" value="{{$role->name}}" label="{{$role->name}}" />
+                                
+                      
+                        
+                    @endforeach
+                </div>
+            </flux:checkbox.group>
+            <flux:error name="selectedRoles" />
+        </flux:fieldset>
+
     <div class="flex gap-3">
         <flux:button type="submit" variant="primary">Create User</flux:button>
         <flux:button 

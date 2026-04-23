@@ -97,8 +97,27 @@ new class extends Component
         </flux:field>
         <flux:field>
             
-            <flux:textarea rows="12" placeholder="Write you post content here . . . ." type="text" lable="content" wire:model.live.debounce="content"/>
-            <flux:error name="content" />
+            <div wire:ignore
+                x-data="{
+                    content: $wire.entangle('content'),
+                }"
+                x-init="
+                    let editor = $refs.trixEditor.editor;
+                    editor.loadHTML(content);
+                    $refs.trixEditor.addEventListener('trix-change',function(e){
+                        content = e.target.value;
+                    });
+                "
+            >
+                <flux:input type="hidden" name="content" id="x-content"/>
+                <trix-editor
+                    input="x-content"
+                    class="trix-content"  
+                    x-ref="trixEditor"
+        
+                ></trix-editor>
+                <flux:error name="content" />
+            </div>
         </flux:field>
         <flux:field>
             <flux:input type="file" wire:model="featured_image" accept="image/*" placeholder="Select image" label=""/>
@@ -109,7 +128,17 @@ new class extends Component
                     >
                 </div>
             @endif
+            @if ($featured_image)
+                <div class="mt-4 flex flex-col gap-2">
+                    <img src="{{ $featured_image->temporaryUrl()}}"
+                        class="h-12 w-12 rounded border"                    
+                    >
+                </div>
+            @endif
             <flux:error name="featured_image" />
+            <div wire:loading wire:target="featured_image" class="mt-2 text-sm text-gray-500">
+                Uploading...
+            </div>
         </flux:field>
         <flux:fieldset>
     <flux:legend>Status</flux:legend>

@@ -98,7 +98,7 @@ new class extends Component
                 <div>
                     <flux:button
                         href="{{ route('posts.create') }}"
-                        icon:trailing="folder-plus"
+                        icon="plus"
                     >
                         Create Post
                     </flux:button>
@@ -150,11 +150,11 @@ new class extends Component
                                 {{ $post->created_at->format('M d,Y') }}
                             </flux:table.cell>
                             <flux:table.cell class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <div class="flex justify-end gap-2">
-                                    @if (auth()->user()->can('edit all posts') || (auth()->user()->can('edit own post') && auth()->id === $post->user_id))
+                                <div class="flex justify-start gap-2">
+                                    @if (auth()->user()->can('edit all posts') || (auth()->user()->can('edit own posts') && auth()->id() === $post->user_id))
                                         <flux:button
                                             href="{{ route('posts.edit',$post) }}"
-                                          
+                                            icon="pencil-square"
                                             variant="primary"
                                             size="sm"
                                             
@@ -162,10 +162,11 @@ new class extends Component
                                             Edit
                                         </flux:button>
                                     @endif
-                                    @if (auth()->user()->can('delete all posts') || (auth()->user()->can('delete own posts') && auth()->id === $post->user_id))
+                                    @if (auth()->user()->can('delete all posts') || (auth()->user()->can('delete own posts') && auth()->id() === $post->user_id))
                                         <flux:button
                                             wire:click="deletePost({{ $post->id }})"
-                                            icon:trailing="trash"
+                                            icon="trash"
+                                            wire:confirm="Are you sure you want to delete this?"
                                             variant="danger"
                                             size="sm"
                                         >

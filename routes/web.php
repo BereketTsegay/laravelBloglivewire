@@ -1,15 +1,19 @@
 <?php
 
+use App\Livewire\PostList;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/blog');
 })->name('home');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+Route::get('/blog',PostList::class)->name('blog.index');
+Route::livewire('/blog/{slug}','pages::posts.show')->name('blog.show');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
