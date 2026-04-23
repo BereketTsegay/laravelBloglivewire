@@ -50,8 +50,8 @@ new class extends Component
         $this->status = $post->status;
         $this->existing_image = $post->featured_image ?? '';
 
-        $this->selectedCategories = $post->categories()->pluck('id')->toArray()??[];
-        $this->selectedTags = $post->tags()->pluck('id')->toArray()??[];
+        $this->selectedCategories = $post->categories->pluck('id')->toArray()??[];
+        $this->selectedTags = $post->tags->pluck('id')->toArray()??[];
     }
 
     public function update(){
@@ -85,9 +85,9 @@ new class extends Component
         //sync categories and tags
         $this->post->categories()->sync($this->selectedCategories);
         if(!empty($this->selectedTags)){
-            $this->post->tags()->sync($this->selectedTags);
+            $this->post->tags->sync($this->selectedTags);
         }else{
-            $this->post->tags()->sync([]);
+            $this->post->tags->sync([]);
         }
 
          Flux::toast('Your changes have been saved.');
@@ -162,13 +162,16 @@ new class extends Component
                 Uploading...
             </div>
         </flux:field>
-            <flux:fieldset>
-                <!-- categories -->
-                <flux:legend>Categories</flux:legend>
-                <flux:checkbox.group wire:model.live="selectedCategories">
-                    @foreach ($categories as $category)
-                    <div class="flex items-center">
-                        <span class="ml-3 flex items-center">
+       
+       {{-- start pof the catefories --}}
+
+       <flux:fieldset>
+            <!-- categories -->
+            <flux:legend>Categories</flux:legend>
+            <flux:checkbox.group wire:model.live="selectedCategories">
+                @foreach ($categories as $category)
+                   <div class="flex items-center">
+                    <span class="ml-3 flex items-center">
                             <span
                                 class="inline-block w-3 h-3 rounded-full mr-2"
                                 style="background-color: {{ $category->color }}"
@@ -180,11 +183,11 @@ new class extends Component
                             value="{{ $category->id }}"
                             label="{{ $category->name }}"
                         />
+
                     </div>
-                    @endforeach
-                </flux:checkbox.group>
-                <flux:error name="selectedCategories" />
+                @endforeach
             </flux:checkbox.group>
+             <flux:error name="selectedCategories" />
         </flux:fieldset>
         <flux:fieldset>
             <!-- tags -->
@@ -198,32 +201,34 @@ new class extends Component
                 @endforeach
             </flux:checkbox.group>
         </flux:fieldset>
+        
+        {{-- end of category --}}
         <flux:fieldset>
-    <flux:legend>Status</flux:legend>
-    <flux:radio.group wire:model.live="status">
-            <flux:radio
-                value="draft"
-                label="Draft"
-                description="Save as draft,not vissible to readers"
-                checked
-            />
-            @can('publish posts')
-               <flux:radio
-                value="published"
-                label="Publish"
-                description="Publish imedeatly, vissible to all readers."
-            />
-            @endcan
-        </flux:radio.group>
-        <flux:error name="status" />
-    </flux:fieldset>
+            <flux:legend>Status</flux:legend>
+            <flux:radio.group wire:model.live="status">
+                    <flux:radio
+                        value="draft"
+                        label="Draft"
+                        description="Save as draft,not vissible to readers"
+                        checked
+                    />
+                    @can('publish posts')
+                    <flux:radio
+                        value="published"
+                        label="Publish"
+                        description="Publish imedeatly, vissible to all readers."
+                    />
+                    @endcan
+                </flux:radio.group>
+                <flux:error name="status" />
+        </flux:fieldset>
 
-    <div class="flex gap-3">
-        <flux:button type="submit" variant="primary">Update Post</flux:button>
-        <flux:button
-         href="{{ route('posts.index') }}"
-        variant="danger">Cancel</flux:button>
-    </div>
+        <div class="flex gap-3">
+            <flux:button type="submit" variant="primary">Update Post</flux:button>
+            <flux:button
+            href="{{ route('posts.index') }}"
+            variant="danger">Cancel</flux:button>
+        </div>
     </form>
     {{-- end of form --}}
 </div>
