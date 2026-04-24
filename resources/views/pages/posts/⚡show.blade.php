@@ -10,7 +10,7 @@ new class extends Component
     public function mount($slug) :void {
         $this->post = Post::where('slug',$slug)
         ->where('status','published')
-        ->with('user')
+        ->with(['user','tags','categories'])
         ->firstOrFail();
     }
 };
@@ -44,9 +44,10 @@ new class extends Component
                 </div>
             </div>
             <!-- Categories and Tags -->
-            <!-- {{-- <div class="flex flex-wrap items-center gap-4 pt-4 border-t border-gray-200"> -->
-                <!-- Categories
+            <div class="flex flex-wrap items-center gap-4 pt-4 border-t border-gray-200">
+                
                 @if($post->categories->count() > 0)
+           
                     <div class="flex items-center gap-2">
                         <span class="text-sm font-medium text-gray-500">Categories:</span>
                         <div class="flex flex-wrap gap-2">
@@ -62,12 +63,12 @@ new class extends Component
                             @endforeach
                         </div>
                     </div>
-                @endif -->
+                @endif 
 
                 <!-- Tags -->
-                <!-- @if($post->tags->count() > 0)
+               @if($post->tags->count() > 0)
                     <div class="flex items-center gap-2">
-                        <span class="text-sm font-medium text-gray-500">Tags:</span>
+                        <span class="text-sm font-medium text-indigo-500">Tags:</span>
                         <div class="flex flex-wrap gap-2">
                             @foreach($post->tags as $tag)
                                 <a
@@ -80,8 +81,8 @@ new class extends Component
                             @endforeach
                         </div>
                     </div>
-                @endif -->
-            <!-- </div> --}} -->
+                @endif
+            </div> 
         </header>
 
         <!-- Post Content -->

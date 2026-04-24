@@ -85,9 +85,9 @@ new class extends Component
         //sync categories and tags
         $this->post->categories()->sync($this->selectedCategories);
         if(!empty($this->selectedTags)){
-            $this->post->tags->sync($this->selectedTags);
+            $this->post->tags()->sync($this->selectedTags);
         }else{
-            $this->post->tags->sync([]);
+            $this->post->tags()->sync([]);
         }
 
          Flux::toast('Your changes have been saved.');
@@ -200,8 +200,9 @@ new class extends Component
                     />
                 @endforeach
             </flux:checkbox.group>
+            <flux:error name="selectedTags" />
         </flux:fieldset>
-        
+
         {{-- end of category --}}
         <flux:fieldset>
             <flux:legend>Status</flux:legend>

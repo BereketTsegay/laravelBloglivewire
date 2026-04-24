@@ -17,7 +17,7 @@
                 </div>
 
                 <!-- Categories -->
-                <!-- {{-- <div class="mb-6">
+                <div class="mb-6">
                     <h3 class="text-sm font-medium text-gray-700 mb-3">Categories</h3>
                     <div class="space-y-2">
                         <button wire:click="$set('selectedCategory', '')"
@@ -36,10 +36,10 @@
                             </button>
                         @endforeach
                     </div>
-                </div> --}} -->
+                </div>
 
                 <!-- Tags -->
-                <!-- {{-- <div class="mb-6">
+                <div class="mb-6">
                     <h3 class="text-sm font-medium text-gray-700 mb-3">Tags</h3>
                     <div class="flex flex-wrap gap-2">
                         @foreach($tags as $tag)
@@ -51,15 +51,15 @@
                             @endif
                         @endforeach
                     </div>
-                </div> --}} -->
+                </div> 
 
                 <!-- Clear Filters -->
-                <!-- {{-- @if($search || $selectedCategory || $selectedTag)
+                @if($search || $selectedCategory || $selectedTag)
                     <button wire:click="clearFilters"
                         class="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-300">
                         Clear Filters
                     </button>
-                @endif --}} -->
+                @endif 
             </aside>
 
             <div class="lg:col-span-3">

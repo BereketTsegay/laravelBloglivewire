@@ -20,7 +20,7 @@ new class extends Component
     //returns posts that are filtered
 
     public function with() : array {
-        $query = Post::with('user')->latest();
+        $query = Post::with(['user','categories','tags'])->latest();
 
         //filter the search query
         if($this->search){
@@ -122,6 +122,7 @@ new class extends Component
             <flux:table :paginate="$posts">
                 <flux:table.columns>
                     <flux:table.column sortable :sorted="$sortBy === 'title'" :direction="$sortDirection" wire:click="sort('title')">Title</flux:table.column>
+                    <flux:table.column sortable :sorted="$sortBy === 'title'" :direction="$sortDirection">Categories</flux:table.column>
                     <flux:table.column sortable :sorted="$sortBy === 'author'" :direction="$sortDirection" wire:click="sort('author')">Author</flux:table.column>
                     <flux:table.column sortable :sorted="$sortBy === 'status'" :direction="$sortDirection" wire:click="sort('status')">Status</flux:table.column>
                     <flux:table.column sortable :sorted="$sortBy === 'created_at'" :direction="$sortDirection" wire:click="sort('created_at')">Created</flux:table.column>
@@ -133,6 +134,21 @@ new class extends Component
                             <flux:table.cell class="px-6 py-4 whitespace-nowrap">
                                <div class="text-sm font-medium text-gray-900"> {{ $post->title }}</div>
                                <div class="text-sm text-gray-500"> {{ Str::limit($post->excerpt,50) }}</div>
+                            </flux:table.cell>
+                            <flux:table.cell>
+                            {{-- place Categories here --}}
+                                <div class="flex flex-wrap gap-1">
+                                    @forelse ($post->categories as $category)
+                                        <span class="px-2 py-1 text-xm font-semibold rounded-full text-white"
+                                            style="background-color: {{ $category->color }};"
+                                        >
+                                        {{ $category->name }}
+                                        </span>
+                                    @empty
+                                        <span class="text-sm text-gray-400"> No category</span>
+                                    @endforelse
+                                </div>
+                            {{-- end of categories --}}
                             </flux:table.cell>
                             <flux:table.cell class="whitespace-nowrap">
                                <div class="text-sm text-gray-900">{{ $post->user->name }}</div>
