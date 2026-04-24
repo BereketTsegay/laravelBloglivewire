@@ -15,10 +15,13 @@
                 <flux:navlist.group heading="Platform" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>Dashboard</flux:navlist.item>
                     @can('create posts')
-                        <flux:navlist.item icon="document-text" :href="route('posts.index')" :current="request()->routeIs('posts')" wire:navigate>Posts</flux:navlist.item>
+                        <flux:navlist.item icon="document-text" :href="route('posts.index')" :current="request()->routeIs('posts.index')" wire:navigate>Posts</flux:navlist.item>
                     @endcan
                     @can('manage users')
-                        <flux:navlist.item icon="user-group" :href="route('users.index')" :current="request()->routeIs('users')" wire:navigate>Users</flux:navlist.item>
+                        <flux:navlist.item icon="user-group" :href="route('users.index')" :current="request()->routeIs('users.index')" wire:navigate>Users</flux:navlist.item>
+                    @endcan
+                    @can('manage roles')
+                        <flux:navlist.item icon="tag" :href="route('categories.index')" :current="request()->routeIs('categories.index')" wire:navigate>Categories</flux:navlist.item>
                     @endcan
 
                 </flux:navlist.group>
