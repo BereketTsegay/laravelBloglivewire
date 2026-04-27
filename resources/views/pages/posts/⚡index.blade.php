@@ -20,7 +20,9 @@ new class extends Component
     //returns posts that are filtered
 
     public function with() : array {
-        $query = Post::with(['user','categories','tags'])->latest();
+        $query = Post::with(['user','categories','tags'])
+        ->withCount('comments')
+        ->latest();
 
         //filter the search query
         if($this->search){
@@ -28,7 +30,7 @@ new class extends Component
         }
 
         //filter the statues query
-        
+
          if($this->status && $this->status!=='all'){
             $query->where('status','like','%'.$this->status.'%');
         }
@@ -81,9 +83,9 @@ new class extends Component
     <div class="mb-6 rounded-lg   p-4">
         <div class="flex flex-col sm:flex-row gap-4">
             <div class="flex-1">
-                <flux:input kbd="⌘K" 
-                icon="magnifying-glass" 
-                placeholder="Search..." 
+                <flux:input kbd="⌘K"
+                icon="magnifying-glass"
+                placeholder="Search..."
                 wire:model.live.debounce.300ms="search"/>
             </div>
             <div class="sm:w-48">
@@ -102,19 +104,19 @@ new class extends Component
                     >
                         Create Post
                     </flux:button>
-                </div>        
+                </div>
             @endcan
         </div>
     </div>
-    
 
-    
+
+
 
     {{-- @if (session('success'))
         <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p4" wire:transition>
             <p class="text-sm"></p>
         </div>
-        
+
     @endif --}}
 
     <div class="rounded-lg   overflow-hidden">
@@ -134,6 +136,12 @@ new class extends Component
                             <flux:table.cell class="px-6 py-4 whitespace-nowrap">
                                <div class="text-sm font-medium text-gray-900"> {{ $post->title }}</div>
                                <div class="text-sm text-gray-500"> {{ Str::limit($post->excerpt,50) }}</div>
+                                @if($post->comments_count > 0)
+                                    <span class="inline-flex items-center px-2 py-1 bg-gray-500 text-white text-xs font-medium rounded-full">
+                                        <flux:icon.chat-bubble-oval-left-ellipsis variant="micro" />
+                                    {{ $post->comments_count }} {{ Str::plural('comment', $post->comments_count) }}
+                                    </span>
+                                @endif
                             </flux:table.cell>
                             <flux:table.cell>
                             {{-- place Categories here --}}
@@ -173,7 +181,7 @@ new class extends Component
                                             icon="pencil-square"
                                             variant="primary"
                                             size="sm"
-                                            
+
                                         >
                                             Edit
                                         </flux:button>

@@ -22,7 +22,7 @@ class PostList extends Component
     #[Url(as: 'tag')]
      public string $selectedTag = '';
 
-   
+
 
     #[Layout('layouts.public')]
     #[Title('Blog')]
@@ -45,6 +45,7 @@ class PostList extends Component
                 $query->where('slug',$this->selectedTag);
             });
         })
+        ->withCount('comments')
         ->latest('published_at')->paginate(9);
 
         return view('livewire.post-list',[

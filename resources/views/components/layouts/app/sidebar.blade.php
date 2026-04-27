@@ -23,6 +23,9 @@
                     @can('manage roles')
                         <flux:navlist.item icon="tag" :href="route('categories.index')" :current="request()->routeIs('categories.index')" wire:navigate>Categories</flux:navlist.item>
                     @endcan
+                    @can('manage roles')
+                        <flux:navlist.item icon="chat-bubble-left-right" :href="route('comments.index')" :current="request()->routeIs('comments.index')" wire:navigate>Comments</flux:navlist.item>
+                    @endcan
 
                 </flux:navlist.group>
             </flux:navlist>
@@ -42,8 +45,8 @@
             <!-- Desktop User Menu -->
             <flux:dropdown position="bottom" align="start">
                 <flux:profile
-                    :name="auth()->user()->name"
-                    :initials="auth()->user()->initials()"
+                    :name="auth()->user()?->name"
+                    :initials="auth()->user()?->initials()"
                     icon-trailing="chevrons-up-down"
                 />
 
@@ -55,13 +58,13 @@
                                     <span
                                         class="flex h-full w-full items-center justify-center rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white"
                                     >
-                                        {{ auth()->user()->initials() }}
+                                        {{ auth()->user()?->initials() }}
                                     </span>
                                 </span>
 
                                 <div class="grid flex-1 text-left text-sm leading-tight">
-                                    <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
-                                    <span class="truncate text-xs">{{ auth()->user()->email }}</span>
+                                    <span class="truncate font-semibold">{{ auth()->user()?->name }}</span>
+                                    <span class="truncate text-xs">{{ auth()->user()?->email }}</span>
                                 </div>
                             </div>
                         </div>
@@ -93,7 +96,7 @@
 
             <flux:dropdown position="top" align="end">
                 <flux:profile
-                    :initials="auth()->user()->initials()"
+                    :initials="auth()->user()?->initials()"
                     icon-trailing="chevron-down"
                 />
 
@@ -105,13 +108,13 @@
                                     <span
                                         class="flex h-full w-full items-center justify-center rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white"
                                     >
-                                        {{ auth()->user()->initials() }}
+                                        {{ auth()->user()?->initials() }}
                                     </span>
                                 </span>
 
                                 <div class="grid flex-1 text-left text-sm leading-tight">
-                                    <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
-                                    <span class="truncate text-xs">{{ auth()->user()->email }}</span>
+                                    <span class="truncate font-semibold">{{ auth()->user()?->name }}</span>
+                                    <span class="truncate text-xs">{{ auth()->user()?->email }}</span>
                                 </div>
                             </div>
                         </div>

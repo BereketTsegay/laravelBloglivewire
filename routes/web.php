@@ -33,6 +33,9 @@ Route::middleware('auth')->group(function(){
     Route::livewire('/categories/{user}/edit','pages::categories.edit')->middleware('can:manage roles')->name('categories.edit');
     Route::livewire('/categories/create','pages::categories.create')->middleware('can:manage roles')->name('categories.create');
 
+    //comments routes
+    Route::livewire('/comments','pages::comments.index')->middleware('can:manage roles')->name('comments.index');
+    //posts routes
     Route::livewire('/posts','pages::posts.index')->middleware('can:create posts')->name('posts.index');
     Route::livewire('/posts/{post}/edit','pages::posts.edit')->name('posts.edit');
     Route::livewire('/posts/create','pages::posts.create')->middleware('can:create posts')->name('posts.create');

@@ -42,7 +42,7 @@ class Comment extends Model
         return $query->where('status', 'rejected');
     }
 
-    public function topLevel($query)
+    public function scopeTopLevel($query)
     {
        $query->whereNull('parent_id');
     }

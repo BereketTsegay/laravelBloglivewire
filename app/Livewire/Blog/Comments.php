@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Blog;
 
+use App\Models\Comment;
 use App\Models\Post;
 use Flux\Flux;
 use Livewire\Attributes\Validate;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Comments extends Component
@@ -48,9 +50,37 @@ class Comments extends Component
         $this->replayingTo = $commentId;
         $this->replyContent = '';
     }
+    public function cancelReply() : void {
+        $this->replayingTo = null;
+        $this->replyContent = '';
+    }
+    public function postReply(){
+        if(!auth()->check()){
+            Flux::toast('You must be logged in to comment.', 'error');
+            return redirect()->route('login');
+        }
+        $this->validateOnly('replyContent', [
+            'replyContent' => 'required|string|min:3|max:1000',
+        ]);
+
+        $this->post->comments()->create([
+            'user_id' => auth()->id(),
+            'content' => $this->replyContent,
+            'status' => 'approved',
+            'parent_id' => $this->replayingTo,
+        ]);
+
+        $this->cancelReply();
+
+        $this->dispatch('comment-posted');
+        Flux::toast('Your reply has beenposted.');
+    }
     #[On('comment-posted')]
     public function render()
     {
-        return view('livewire.blog.comments');
+        $comments = Comment::where('post_id', $this->post->id)->approved()->topLevel()->with(['user', 'replies.user'])->latest()->get();
+        return view('livewire.blog.comments',[
+            'comments' => $comments,
+            ]);
     }
 }

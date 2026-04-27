@@ -51,7 +51,7 @@
                             @endif
                         @endforeach
                     </div>
-                </div> 
+                </div>
 
                 <!-- Clear Filters -->
                 @if($search || $selectedCategory || $selectedTag)
@@ -59,7 +59,7 @@
                         class="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-300">
                         Clear Filters
                     </button>
-                @endif 
+                @endif
             </aside>
 
             <div class="lg:col-span-3">
@@ -78,6 +78,7 @@
                                     <div
                                         class="w-full h-48 bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
                                         <span class="text-4xl text-white font-bold">{{ substr($post->title, 0, 1) }}</span>
+
                                     </div>
                                 </a>
                             @endif
