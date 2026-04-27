@@ -22,7 +22,7 @@ class Comments extends Component
         $this->post = $post;
     }
 
-    public function addComment()
+    public function postComment()
     {
         if(!auth()->check()){
             Flux::toast('You must be logged in to comment.', 'error');
@@ -38,9 +38,17 @@ class Comments extends Component
 
         $this->newComment = '';
 
+        $this->dispatch('comment-posted');
         Flux::toast('Your comment has been Approved and is now visible.');
     }
 
+    public function startReplay($commentId){
+        if(!auth()->check()) return redirect()->route('login');
+
+        $this->replayingTo = $commentId;
+        $this->replyContent = '';
+    }
+    #[On('comment-posted')]
     public function render()
     {
         return view('livewire.blog.comments');
