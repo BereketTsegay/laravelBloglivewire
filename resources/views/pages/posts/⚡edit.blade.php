@@ -57,7 +57,7 @@ new class extends Component
     public function update(){
         $this->validate();
 
-        $this->post->user_id= auth()->id();
+        // $this->post->user_id= auth()->id();
         $this->post->title = $this->title;
         $this->post->slug = Str::slug($this->title);
         $this->post->excerpt = $this->excerpt;
@@ -162,7 +162,7 @@ new class extends Component
                 Uploading...
             </div>
         </flux:field>
-       
+
        {{-- start pof the catefories --}}
 
        <flux:fieldset>

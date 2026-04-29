@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="utf-8">
+    <!-- <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? config('app.name') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js']) -->
+        @include('partials.head')
 </head>
 <body class="bg-gray-50">
     <nav class="bg-white border-b border-gray-200">
@@ -15,7 +16,7 @@
                         {{ config('app.name') }}
                     </a>
                 </div>
-                
+
                 <div class="flex items-center gap-4">
                     @auth
                         <a href="{{ route('dashboard') }}" class="text-sm text-gray-700 hover:text-gray-900" wire:navigate>
@@ -33,6 +34,10 @@
 
     <main class="py-10">
         {{ $slot }}
+
+         @persist('toast')
+            <flux:toast />
+        @endpersist
     </main>
 
     <footer class="bg-white border-t border-gray-200 mt-20">
@@ -42,5 +47,6 @@
             </p>
         </div>
     </footer>
+    @fluxScripts
 </body>
 </html>

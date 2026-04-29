@@ -13,7 +13,7 @@ class PostView extends Model
         'viewed_at' => 'datetime'
     ];
 
-    public function posts() : BelongsTo {
+    public function post() : BelongsTo {
         return $this->belongsTo(Post::class);
     }
     public function user() : BelongsTo {

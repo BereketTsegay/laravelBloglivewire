@@ -15,6 +15,16 @@ Route::livewire('dashboard', 'pages::dashborad')
 Route::get('/blog',PostList::class)->name('blog.index');
 Route::livewire('/blog/{slug}','pages::posts.show')->name('blog.show');
 
+//unsbcribe route
+Route::get('/unsubscribe/{token}', function ($token) {
+    $subscriber = \App\Models\Subscriber::where('token', $token)->firstOrFail();
+    if ($subscriber) {
+        $subscriber->delete();
+        return view('unsubscribe');
+    }
+    return abort(404);
+})->name('unsubscribe');
+
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 

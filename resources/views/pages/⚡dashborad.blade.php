@@ -56,7 +56,7 @@ new class extends Component
                 $query->where('user_id',$user->id);
             });
         })->where('viewed_at','>=',now()->subDays(7))
-        ->groupBy('data')
+        ->groupBy('date')
         ->orderBy('date')
         ->get()
         ->keyBy('date'); // for look up
@@ -95,7 +95,7 @@ new class extends Component
             Visit Blog
         </a>
     </div>
-    
+
     <!-- Stats Grid -->
     @island
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -216,9 +216,9 @@ new class extends Component
         <div class="space-y-4">
             @forelse($recentComments as $comment)
                 <div class="flex items-start space-x-3 pb-4 border-b border-gray-200 last:border-0 last:pb-0">
-                    <img 
-                        src="https://ui-avatars.com/api/?name={{ urlencode($comment->user->name) }}&background=4f46e5&color=fff" 
-                        alt="{{ $comment->user->name }}" 
+                    <img
+                        src="https://ui-avatars.com/api/?name={{ urlencode($comment->user->name) }}&background=4f46e5&color=fff"
+                        alt="{{ $comment->user->name }}"
                         class="w-10 h-10 rounded-full"
                     >
                     <div class="flex-1 min-w-0">
@@ -242,7 +242,7 @@ new class extends Component
     <!-- Chart.js Script -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <!-- Pass data via data attributes -->
-<div 
+<div
     id="viewsChartData"
     data-labels='@json($viewsData->pluck('date')->toArray())'
     data-counts='@json($viewsData->pluck('count')->toArray())'

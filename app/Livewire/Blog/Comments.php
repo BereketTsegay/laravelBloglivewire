@@ -32,13 +32,20 @@ class Comments extends Component
         }
         $this->validateOnly('newComment');
 
-        $this->post->comments()->create([
+       $comment = $this->post->comments()->create([
             'user_id' => auth()->id(),
             'content' => $this->newComment,
             'status' => 'approved',
         ]);
 
         $this->newComment = '';
+
+        //notify post author
+        if($comment->post->user_id !== auth()->id()){
+            $comment->post->user->notify(new \App\Notifications\NewCommentNotification($comment));
+        }
+
+
 
         $this->dispatch('comment-posted');
         Flux::toast('Your comment has been Approved and is now visible.');
@@ -63,12 +70,18 @@ class Comments extends Component
             'replyContent' => 'required|string|min:3|max:1000',
         ]);
 
-        $this->post->comments()->create([
+        $comment = $this->post->comments()->create([
             'user_id' => auth()->id(),
             'content' => $this->replyContent,
             'status' => 'approved',
             'parent_id' => $this->replayingTo,
         ]);
+
+        //notify post author
+        if($comment->post->user_id !== auth()->id()){
+            $comment->post->user->notify(new \App\Notifications\NewCommentNotification($comment));
+        }
+
 
         $this->cancelReply();
 

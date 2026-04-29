@@ -11,9 +11,9 @@
             <aside class="lg:col-span-1">
                 <!-- Search -->
                 <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Search</label>
-                    <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search posts..."
-                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+                    <!-- <label class="block text-sm font-medium text-gray-700 mb-2">Search</label> -->
+                    <flux:input label="Search" type="text" wire:model.live.debounce.300ms="search" placeholder="Search posts..."
+                        />
                 </div>
 
                 <!-- Categories -->
@@ -125,5 +125,9 @@
         <div class="mt-8">
             {{ $posts->links() }}
         </div>
+
+        <!-- Subscribe Section  -->
+         <livewire:blog.subcribe />
+         <!-- end of subscribe section -->
     </div>
 </div>
