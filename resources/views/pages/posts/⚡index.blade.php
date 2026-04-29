@@ -80,7 +80,7 @@ new class extends Component
     <!-- end of header -->
 
     {{-- filters --}}
-    <div class="mb-6 rounded-lg   p-4">
+    <div class="mb-6 rounded-lg  bg-zinc-50 border-zinc-200 border-1  p-8">
         <div class="flex flex-col sm:flex-row gap-4">
             <div class="flex-1">
                 <flux:input kbd="⌘K"
@@ -110,16 +110,7 @@ new class extends Component
     </div>
 
 
-
-
-    {{-- @if (session('success'))
-        <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p4" wire:transition>
-            <p class="text-sm"></p>
-        </div>
-
-    @endif --}}
-
-    <div class="rounded-lg   overflow-hidden">
+    <div class="rounded-lg bg-zinc-50 border-zinc-200 border-1 p-8 mt-3  overflow-hidden">
         <div class="overflow-x-auto">
             <flux:table :paginate="$posts">
                 <flux:table.columns>
@@ -134,7 +125,7 @@ new class extends Component
                     @forelse ( $posts as $post )
                         <flux:table.row :key="$post->id" wire:transition >
                             <flux:table.cell class="px-6 py-4 whitespace-nowrap">
-                               <div class="text-sm font-medium text-gray-900"> {{ $post->title }}</div>
+                               <div class="text-sm font-medium text-gray-900"> {{ Str::limit($post->title,20) }}</div>
                                <div class="text-sm text-gray-500"> {{ Str::limit($post->excerpt,50) }}</div>
                                 @if($post->comments_count > 0)
                                     <span class="inline-flex items-center px-2 py-1 bg-gray-500 text-white text-xs font-medium rounded-full">

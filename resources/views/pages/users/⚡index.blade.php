@@ -18,7 +18,7 @@ new class extends Component
     //returns users that are filtered
 
     public function with() : array {
-    $query = User::with('roles')->latest();
+    $query = User::with('roles')->withCount('posts')->latest();
 
         //filter the search query
         if($this->search){
@@ -131,9 +131,10 @@ new class extends Component
     <div class="rounded-lg   overflow-hidden">
         <div class="overflow-x-auto">
             <flux:table :paginate="$users">
-                <flux:table.columns>
+                <flux:table.columns sticky>
                     <flux:table.column sortable :sorted="$sortBy === 'title'" :direction="$sortDirection" wire:click="sort('user')">User</flux:table.column>
                     <flux:table.column sortable :sorted="$sortBy === 'author'" :direction="$sortDirection" wire:click="sort('email')">Email</flux:table.column>
+                    <flux:table.column sortable :sorted="$sortBy === 'author'" :direction="$sortDirection" wire:click="sort('posts')">Posts</flux:table.column>
                     <flux:table.column sortable :sorted="$sortBy === 'roleFilter'" :direction="$sortDirection" wire:click="sort('roles')">Roles</flux:table.column>
                     <flux:table.column sortable :sorted="$sortBy === 'created_at'" :direction="$sortDirection" wire:click="sort('joined')">Joined</flux:table.column>
                     <flux:table.column >Actions</flux:table.column>
@@ -155,6 +156,9 @@ new class extends Component
                             </flux:table.cell>
                             <flux:table.cell class="whitespace-nowrap">
                                <div class="text-sm text-gray-900">{{ $user->email }}</div>
+                            </flux:table.cell>
+                            <flux:table.cell class="whitespace-nowrap">
+                               <div class="text-sm text-gray-900"><flux:badge color="lime">{{ $user->posts_count }}</flux:badge></div>
                             </flux:table.cell>
                             <flux:table.cell>
                                 <div class="flex flex-wrap gap-1">

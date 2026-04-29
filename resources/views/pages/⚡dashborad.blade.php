@@ -255,11 +255,11 @@ new class extends Component
         const chartDataEl = document.getElementById('viewsChartData');
 
         // read data from data attributes
+
+        console.log($wire.recentComments);
         const labels = JSON.parse(chartDataEl.dataset.labels);
         const data = JSON.parse(chartDataEl.dataset.counts);
 
-        console.log('labels:',labels);
-        console.log('counts:',data);
 
         new Chart(ctx, {
             type: 'line',
