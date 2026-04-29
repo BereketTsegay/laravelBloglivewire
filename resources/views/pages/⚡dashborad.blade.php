@@ -55,7 +55,7 @@ new class extends Component
             $q->whereHas('post', function($query) use($user){
                 $query->where('user_id',$user->id);
             });
-        })->where('viewed_at',now()->subDays(7))
+        })->where('viewed_at','>=',now()->subDays(7))
         ->groupBy('data')
         ->orderBy('date')
         ->get()
@@ -73,7 +73,7 @@ new class extends Component
             $viewsData->push(
                 [
                     'date' => $dateLabel,
-                    'count' => isset($rawViewsData[$dateKey]) ? $rawViewsData($dateKey)->count : 0
+                    'count' => isset($rawViewsData[$dateKey]) ? $rawViewsData[$dateKey]->count : 0
                 ]
             );
         }
