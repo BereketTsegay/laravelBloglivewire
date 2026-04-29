@@ -2,6 +2,7 @@
 
 use Livewire\Component;
 use App\Models\Post;
+use App\Models\PostView;
 
 new class extends Component
 {
@@ -12,8 +13,28 @@ new class extends Component
         ->where('status','published')
         ->with(['user','tags','categories'])
         ->firstOrFail();
+
+        $this->trackView();
     }
+
+    //add truck view
+    protected function trackView(){
+    $this->post->increment('views_count');
+
+    //update the postviews table
+
+    PostView::create([
+        'post_id'=> $this->post->id,
+        'user_id'=> auth()->id(),
+        'ip_address'=> request()->ip(),
+        'user_agent'=> request()->userAgent(),
+        'viewed_at' => now()
+    ]);
+}
+    
 };
+
+
 ?>
 
 <div>

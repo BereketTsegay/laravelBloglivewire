@@ -8,7 +8,7 @@ Route::get('/', function () {
     return redirect('/blog');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
+Route::livewire('dashboard', 'pages::dashborad')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 

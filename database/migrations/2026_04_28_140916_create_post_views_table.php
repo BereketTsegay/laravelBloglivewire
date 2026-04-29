@@ -19,6 +19,8 @@ return new class extends Migration
             $table->timestamp('viewed_at')->useCurrent();
             $table->string('user_agent')->nullable();
             $table->timestamps();
+
+            $table->index(['post_id','viewed_at']);
         });
     }
 

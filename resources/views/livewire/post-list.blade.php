@@ -88,10 +88,10 @@
                                     <span>{{ $post->published_at->format('M d, Y') }}</span>
                                     <span class="mx-2">•</span>
                                     <span>{{ $post->user->name }}</span>
-                                    {{-- @if ($post->views_count > 0)
+                                    @if ($post->views_count > 0)
                                         <span>•</span>
                                         <span>{{ number_format($post->views_count) }} {{ Str::plural('view',$post->views_count) }}</span>
-                                    @endif --}}
+                                    @endif
                                 </div>
 
                                 <h2 class="text-xl font-bold text-gray-900 mb-2">
